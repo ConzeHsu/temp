@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="read函数参数理解ssize_t read [1]  (int fd, void *buf, size_t count);   fd：文件描述符，用来指向要操作的文件的文件结构体0表示输入 1表示输出 2表示error buf：一块内存空间     count：希望读取的字节数   getenv函数参数理解char *getenv(char *envvar);  功能： 从环境中取字符串,获取环">
+<meta name="keywords" content="binary">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二进制">
+<meta property="og:url" content="http://yoursite.com/2019/01/11/二进制/index.html">
+<meta property="og:site_name" content="ConzeHsu&#39;s blog">
+<meta property="og:description" content="read函数参数理解ssize_t read [1]  (int fd, void *buf, size_t count);   fd：文件描述符，用来指向要操作的文件的文件结构体0表示输入 1表示输出 2表示error buf：一块内存空间     count：希望读取的字节数   getenv函数参数理解char *getenv(char *envvar);  功能： 从环境中取字符串,获取环">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://yoursite.com/2019/01/11/二进制/2F1861DDCCD94FC4AF102E2D1C7E075E">
+<meta property="og:updated_time" content="2019-01-11T15:57:44.401Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二进制">
+<meta name="twitter:description" content="read函数参数理解ssize_t read [1]  (int fd, void *buf, size_t count);   fd：文件描述符，用来指向要操作的文件的文件结构体0表示输入 1表示输出 2表示error buf：一块内存空间     count：希望读取的字节数   getenv函数参数理解char *getenv(char *envvar);  功能： 从环境中取字符串,获取环">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/11/二进制/2F1861DDCCD94FC4AF102E2D1C7E075E">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>二进制</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Inici</a></li>
+         
+          <li><a href="/about/">Qui som</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/projects_url">Projectes</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/01/11/CCF/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/01/11/hello-world-1/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Post Anterior</span>
+      <span id="i-next" class="info" style="display:none;">Post Següent</span>
+      <span id="i-top" class="info" style="display:none;">Adalt</span>
+      <span id="i-share" class="info" style="display:none;">Compartir Post</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/11/二进制/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/11/二进制/&text=二进制"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/11/二进制/&is_video=false&description=二进制"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=二进制&body=Check out this article: http://yoursite.com/2019/01/11/二进制/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/11/二进制/&name=二进制&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#read函数参数理解"><span class="toc-number">1.</span> <span class="toc-text">read函数参数理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getenv函数参数理解"><span class="toc-number">2.</span> <span class="toc-text">getenv函数参数理解</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#checksec及其包含的保护机制"><span class="toc-number"></span> <span class="toc-text">checksec及其包含的保护机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态链接"><span class="toc-number"></span> <span class="toc-text">动态链接</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#重定位"><span class="toc-number">1.</span> <span class="toc-text">重定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态链接中的延迟绑定"><span class="toc-number">2.</span> <span class="toc-text">动态链接中的延迟绑定</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈溢出攻击方法"><span class="toc-number"></span> <span class="toc-text">栈溢出攻击方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#寄存器"><span class="toc-number"></span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内存分段的典型布局"><span class="toc-number"></span> <span class="toc-text">内存分段的典型布局</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwntools"><span class="toc-number"></span> <span class="toc-text">pwntools</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tube"><span class="toc-number">1.</span> <span class="toc-text">tube</span></a></li></ol>
+    </li></div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        二进制
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">ConzeHsu's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-01-11T15:57:29.000Z" itemprop="datePublished">2019-01-11</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/binary/">binary</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="read函数参数理解"><a href="#read函数参数理解" class="headerlink" title="read函数参数理解"></a>read函数参数理解</h2><p><code>ssize_t read [1]  (int fd, void *buf, size_t count);</code></p>
+<blockquote>
+<ul>
+<li>fd：文件描述符，用来指向要操作的文件的文件结构体<br>0表示输入 1表示输出 2表示error</li>
+<li>buf：一块内存空间    </li>
+<li>count：希望读取的字节数</li>
+</ul>
+</blockquote>
+<h2 id="getenv函数参数理解"><a href="#getenv函数参数理解" class="headerlink" title="getenv函数参数理解"></a>getenv函数参数理解</h2><p><code>char *getenv(char *envvar);</code></p>
+<ul>
+<li><strong>功能：</strong> 从环境中取字符串,获取环境变量的值</li>
+<li><strong>函数说明：</strong> getenv()用来取得参数envvar环境变量的内容。参数envvar为环境变量的名称，如果该变量存在则会返回指向该内容的指针。环境变量的格式为envvar=value。getenv函数的返回值存储在一个全局二维数组里，当你再次使用getenv函数时不用担心会覆盖上次的调用结果。</li>
+</ul>
+<h1 id="checksec及其包含的保护机制"><a href="#checksec及其包含的保护机制" class="headerlink" title="checksec及其包含的保护机制"></a>checksec及其包含的保护机制</h1><ul>
+<li><p><strong>CANNARY</strong>当启用栈保护后，函数开始执行的时候会先往栈里插入<code>cookie</code>信息，当函数真正返回的时候会验证cookie信息是否合法，如果不合法就停止程序运行。攻击者在覆盖返回地址的时候往往也会将cookie信息给覆盖掉，导致栈保护检查失败而阻止shellcode的执行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc -fno-stack-protector -o test test.c  //禁用栈保护</span><br><span class="line">gcc -fstack-protector -o test test.c   //启用堆栈保护，不过只为局部变量中含有 char 数组的函数插入保护代码</span><br><span class="line">gcc -fstack-protector-all -o test test.c //启用堆栈保护，为所有函数插入保护代码</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>NX(DEP)</strong>NX即No-eXecute（不可执行）的意思，NX（DEP）的基本原理是将数据所在内存页标识为不可执行，当程序溢出成功转入shellcode时，程序会尝试在数据页面上执行指令，此时CPU就会抛出异常，而不是去执行恶意指令。<br>gcc编译器默认开启了NX选项，如果需要关闭NX选项，可以给gcc编译器添加-z execstack参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -z execstack -o test test.c</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>PIE（ASLR)</strong>内存地址随机化有以下三种情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0 - 表示关闭进程地址空间随机化。</span><br><span class="line">1 - 表示将mmap的基址，stack和vdso页面随机化。</span><br><span class="line">2 - 表示在1的基础上增加栈（heap）的随机化。</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>可以防范基于Ret2libc方式的针对DEP的攻击。ASLR和DEP配合使用，能有效阻止攻击者在堆栈上运行恶意代码。</p>
+<p>Built as PIE：位置独立的可执行区域（position-independent executables）。这样使得在利用缓冲溢出和移动操作系统中存在的其他内存崩溃缺陷时采用面向返回的编程（return-oriented programming）方法变得难得多。</p>
+<p>liunx下关闭PIE的命令如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo -s echo 0 &gt; /proc/sys/kernel/randomize_va_space</span><br></pre></td></tr></table></figure></p>
+<h1 id="动态链接"><a href="#动态链接" class="headerlink" title="动态链接"></a>动态链接</h1><h2 id="重定位"><a href="#重定位" class="headerlink" title="重定位"></a>重定位</h2><ul>
+<li>链接器在链接时填充</li>
+<li>动态连接器在运行时填充，例如动态解析库函数（例如printf）<h2 id="动态链接中的延迟绑定"><a href="#动态链接中的延迟绑定" class="headerlink" title="动态链接中的延迟绑定"></a>动态链接中的延迟绑定</h2></li>
+<li>外部函数的地址在运行时才会确定</li>
+<li>外部函数符号通常在首次调用时才会被解析</li>
+<li>外部变量不使用延迟绑定机制<h1 id="栈溢出攻击方法"><a href="#栈溢出攻击方法" class="headerlink" title="栈溢出攻击方法"></a>栈溢出攻击方法</h1></li>
+<li><strong>shellcode</strong>修改返回地址，让其指向溢出数据中的一段指令</li>
+<li><strong>return2libc</strong>修改返回地址，让其指向内存中已有的某个函数</li>
+<li><strong>ROP</strong>修改返回地址，让其指向内存中已有的一段指令</li>
+<li><strong>hijack GOT</strong>修改某个被调用函数的地址，让其指向另一个函数<blockquote>
+<p>参考： <a href="https://zhuanlan.zhihu.com/p/25816426" target="_blank" rel="noopener">手把手教你栈溢出上/</a><br><a href="https://zhuanlan.zhihu.com/p/25892385" target="_blank" rel="noopener">下</a></p>
+</blockquote>
+<h1 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h1></li>
+<li><strong>eax</strong> 被称为累加寄存器（Accumulator），用以进行算数运算和返回函数结果等。</li>
+<li><strong>ebx</strong> 被称为基址寄存器（Base），在内存寻址时（比如数组运算）用以存放基地址。</li>
+<li><strong>ecx</strong> 被称为记数寄存器（Counter），用以在循环过程中记数。</li>
+<li><strong>edx</strong> 被称为数据寄存器（Data），常配合 eax 一起存放运算结果等数据。</li>
+<li><strong>esi</strong> 指向要处理的数据地址（Source Index）</li>
+<li><strong>edi</strong> 指向存放处理结果的数据地址（Destination Index）。</li>
+<li><strong>esp、ebp</strong>堆栈指针寄存器用于保存函数在调用栈中的状态<h1 id="内存分段的典型布局"><a href="#内存分段的典型布局" class="headerlink" title="内存分段的典型布局"></a>内存分段的典型布局</h1>现代操作系统内存通常是以分段的形式存放不同类型的信息的。我们在上篇谈及的函数调用栈就是分段的一个部分（Stack Segment）。内存分段还包括堆（Heap Segment）、数据段（Data Segment），BSS段，以及代码段（Code Segment）。代码段存储可执行代码和只读常量（如常量字符串），属性可读可执行，但通常不可写。数据段存储已经初始化且初值不为0的全局变量和静态局部变量，BSS段存储未初始化或初值为0的全局变量和静态局部变量，这两段数据都有可写的属性。堆用于存放程序运行中动态分配的内存，例如C语言中的 malloc() 和 free() 函数就是在堆上分配和释放内存。各段在内存的排列如下图所示。</li>
+</ul>
+<p>段地址寄存器就是用来存储内存分段地址的，其中寄存器 ss 存储函数调用栈（Stack Segment）的地址，寄存器 cs 存储代码段（Code Segment）的地址，寄存器 ds 存储数据段（Data Segment）的地址，es、fs、gs 是附加的存储数据段地址的寄存器。</p>
+<p>标志位寄存器（EFLAGS）32位中的大部分被用于标志数据或程序的状态，例如 OF（Overflow Flag）对应数值溢出、IF（Interrupt Flag）对应中断、ZF（Zero Flag）对应运算结果为0、CF（Carry Flag）对应运算产生进位等等。</p>
+<p>指令指针寄存器（eip）存储下一条运行指令的地址，上篇已有详细的介绍。<br><img src="2F1861DDCCD94FC4AF102E2D1C7E075E" alt="image"></p>
+<h1 id="pwntools"><a href="#pwntools" class="headerlink" title="pwntools"></a>pwntools</h1><h2 id="tube"><a href="#tube" class="headerlink" title="tube"></a>tube</h2><blockquote>
+<ul>
+<li>interactive() : 直接进行交互，相当于回到shell的模式，在取得shell之后使用</li>
+<li>recv(numb=4096,timeout=default) : 接收指定字节</li>
+<li>recvall() : 一直接收直到EOF</li>
+<li>recvline(keepends=True) : 接收一行，keepends为是否保留行尾的\n</li>
+<li>recvuntil(delims, drop=False) : 一直读到delims的pattern出现为止</li>
+<li>recvrepeat(timeout=default) : 持续接受直到EOF或timeout</li>
+<li>send(data) : 发送数据</li>
+<li>sendline(data) : 发送一行数据，相当于在数据末尾加\n</li>
+</ul>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Inici</a></li>
+         
+          <li><a href="/about/">Qui som</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/projects_url">Projectes</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#read函数参数理解"><span class="toc-number">1.</span> <span class="toc-text">read函数参数理解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#getenv函数参数理解"><span class="toc-number">2.</span> <span class="toc-text">getenv函数参数理解</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#checksec及其包含的保护机制"><span class="toc-number"></span> <span class="toc-text">checksec及其包含的保护机制</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态链接"><span class="toc-number"></span> <span class="toc-text">动态链接</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#重定位"><span class="toc-number">1.</span> <span class="toc-text">重定位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态链接中的延迟绑定"><span class="toc-number">2.</span> <span class="toc-text">动态链接中的延迟绑定</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#栈溢出攻击方法"><span class="toc-number"></span> <span class="toc-text">栈溢出攻击方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#寄存器"><span class="toc-number"></span> <span class="toc-text">寄存器</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内存分段的典型布局"><span class="toc-number"></span> <span class="toc-text">内存分段的典型布局</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pwntools"><span class="toc-number"></span> <span class="toc-text">pwntools</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#tube"><span class="toc-number">1.</span> <span class="toc-text">tube</span></a></li></ol>
+    </li></div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/01/11/二进制/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/01/11/二进制/&text=二进制"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yoursite.com/2019/01/11/二进制/&is_video=false&description=二进制"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=二进制&body=Check out this article: http://yoursite.com/2019/01/11/二进制/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=http://yoursite.com/2019/01/11/二进制/&title=二进制"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=http://yoursite.com/2019/01/11/二进制/&name=二进制&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menú</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Compartir</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Cap amunt</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 ConzeHsu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Inici</a></li>
+         
+          <li><a href="/about/">Qui som</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+         
+          <li><a href="/projects_url">Projectes</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Disqus Comments -->
+
+
