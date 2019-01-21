@@ -14,7 +14,7 @@
 <meta property="og:site_name" content="ConzeHsu&#39;s blog">
 <meta property="og:description" content="【InForSec学术年会】网络安全四大会议论文分享及产学对话 主题： VulDeePecker: A Deep Learning-Based System for Vulnerability Detection VulDeePecker工具所侧重的两种漏洞： VulDeePecker-github 总结： 先看一个简单的栈溢出的漏洞发现及利用过程：①漏洞位置定位，主要表现为什么样的输入会让程序崩">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-01-21T11:35:58.425Z">
+<meta property="og:updated_time" content="2019-01-21T11:36:46.613Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="InForSec big4-观看总结">
 <meta name="twitter:description" content="【InForSec学术年会】网络安全四大会议论文分享及产学对话 主题： VulDeePecker: A Deep Learning-Based System for Vulnerability Detection VulDeePecker工具所侧重的两种漏洞： VulDeePecker-github 总结： 先看一个简单的栈溢出的漏洞发现及利用过程：①漏洞位置定位，主要表现为什么样的输入会让程序崩">
@@ -140,7 +140,7 @@
 <p>主题： <a href="https://arxiv.org/pdf/1801.01681.pdf" target="_blank" rel="noopener">VulDeePecker: A Deep Learning-Based System for Vulnerability Detection</a></p>
 <p>VulDeePecker工具所侧重的两种漏洞： <a href="https://github.com/CGCL-codes/VulDeePecker" target="_blank" rel="noopener">VulDeePecker-github</a></p>
 <p>总结：</p>
-<p>先看一个简单的栈溢出的漏洞发现及利用过程：<br>①漏洞位置定位，主要表现为什么样的输入会让程序崩溃触发漏洞。<br>②返回地址定位，应该覆盖哪一部分为要跳转的地址<br>③栈的布局，以此为指导精心构造shellcode布局<br>④安排最后的整个输入的布局，每个部分放在什么位置，要基于上面的信息进行推理<br>&emsp;&emsp;所以，我们要进行漏洞的自动利用，就必须要能够自动生成上述所有进行利用的必需的信息，现有的漏洞静态分析方法主要是人来定义漏洞特征，而对于二进制文件的测试也主要是使用Fuzz来碰出使程序crash的输入，这篇论文首次将深度学习技术引入到面向<code>源代码</code>的漏洞检测领域，这意味着在漏洞检测的时候，不需要人手工去找漏洞点的特征。接触这个题目，如果我们先不去看paper，我觉得可能是此实验不仅仅是利用了深度学习的方法，首先需要获得大量的样本，那么样本哪里来，可能是通过Fuzz工具所跑出来的崩溃点来作为训练集，来获取崩溃点的特征，并以此来训练，使得深度学习训练出来的模型能够检测到类似的漏洞，文中所提到的 VulDeePecker 是以自动判断源代码是否易受攻击，并且自动判断漏洞的位置为目的。而对于训练模型的数据设置，是通过提取 <code>libraty/API</code> 功能的调用，并且提取出相对应的代码片段组装成<code>Code gadgets</code>,并且把此转化为向量符号表示，类似于<code>main(int argc...→Vi1 Vi2 Vi3 Vi4...）</code>，并且以此数据作为训练集，使用BLSTM网络进行训练，我们知道 RNN 循环神经网络是是为了解决在时间太长导致梯度消失或梯度爆炸的情况，所以使用LSTM能有效的解决上下文的记忆问题(具体细节还要深究paper), 但是在训练阶段中的生成 code gadgets的过程中，标签的确定是否为人为，即包含了一些安全研究员确定的某些函数或者调用是可能触发漏洞。我认为这个过程完全可以用Fuzz来对所有的函数调用所涉及的输入来进行确定标签，但是可能会导致漏洞漏报的情况。其次，检测到漏洞点，如何判断是否可利用也是另一个问题。</p>
+<p>先看一个简单的栈溢出的漏洞发现及利用过程：<br>①漏洞位置定位，主要表现为什么样的输入会让程序崩溃触发漏洞。<br>②返回地址定位，应该覆盖哪一部分为要跳转的地址<br>③栈的布局，以此为指导精心构造shellcode布局<br>④安排最后的整个输入的布局，每个部分放在什么位置，要基于上面的信息进行推理<br>&emsp;&emsp;&emsp;&emsp;所以，我们要进行漏洞的自动利用，就必须要能够自动生成上述所有进行利用的必需的信息，现有的漏洞静态分析方法主要是人来定义漏洞特征，而对于二进制文件的测试也主要是使用Fuzz来碰出使程序crash的输入，这篇论文首次将深度学习技术引入到面向<code>源代码</code>的漏洞检测领域，这意味着在漏洞检测的时候，不需要人手工去找漏洞点的特征。接触这个题目，如果我们先不去看paper，我觉得可能是此实验不仅仅是利用了深度学习的方法，首先需要获得大量的样本，那么样本哪里来，可能是通过Fuzz工具所跑出来的崩溃点来作为训练集，来获取崩溃点的特征，并以此来训练，使得深度学习训练出来的模型能够检测到类似的漏洞，文中所提到的 VulDeePecker 是以自动判断源代码是否易受攻击，并且自动判断漏洞的位置为目的。而对于训练模型的数据设置，是通过提取 <code>libraty/API</code> 功能的调用，并且提取出相对应的代码片段组装成<code>Code gadgets</code>,并且把此转化为向量符号表示，类似于<code>main(int argc...→Vi1 Vi2 Vi3 Vi4...）</code>，并且以此数据作为训练集，使用BLSTM网络进行训练，我们知道 RNN 循环神经网络是是为了解决在时间太长导致梯度消失或梯度爆炸的情况，所以使用LSTM能有效的解决上下文的记忆问题(具体细节还要深究paper), 但是在训练阶段中的生成 code gadgets的过程中，标签的确定是否为人为，即包含了一些安全研究员确定的某些函数或者调用是可能触发漏洞。我认为这个过程完全可以用Fuzz来对所有的函数调用所涉及的输入来进行确定标签，但是可能会导致漏洞漏报的情况。其次，检测到漏洞点，如何判断是否可利用也是另一个问题。</p>
 
   </div>
 </article>
