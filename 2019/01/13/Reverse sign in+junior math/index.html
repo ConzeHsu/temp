@@ -18,7 +18,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/007c8ISGly1fz4utabm2wj30ew025dfq.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/007c8ISGly1fz4uum1lpvj30i106bglk.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/007c8ISGly1fz4utos1fbj30cc028dfm.jpg">
-<meta property="og:updated_time" content="2019-01-13T14:57:58.340Z">
+<meta property="og:updated_time" content="2019-01-25T08:59:50.839Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Reverse sign in+junior math">
 <meta name="twitter:description" content="Reverse sign in0x01. 400729处flag限制长度为0x20h，我们输入b*32 0x02. 下断点 b *0x400744，step入sub_400686函数 0x03. 一直n到4006bf位置，发现将eax和ecx做xor运算，ecx是我们输入的b，而eax就是我们flag的第一位。 0x04. 看之前的上一条指令4006bc，发现eax存了一个为0x400818的地址">
@@ -99,7 +99,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Reverse-sign-in"><span class="toc-number">1.</span> <span class="toc-text">Reverse sign in</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#junior-math"><span class="toc-number">2.</span> <span class="toc-text">junior math</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reverse-sign-in"><span class="toc-number">1.</span> <span class="toc-text">Reverse sign in</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#junior-math"><span class="toc-number">2.</span> <span class="toc-text">junior math</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -143,7 +143,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h1 id="Reverse-sign-in"><a href="#Reverse-sign-in" class="headerlink" title="Reverse sign in"></a>Reverse sign in</h1><p>0x01. <code>400729</code>处flag限制长度为0x20h，我们输入b*32</p>
+    <h2 id="Reverse-sign-in"><a href="#Reverse-sign-in" class="headerlink" title="Reverse sign in"></a>Reverse sign in</h2><p>0x01. <code>400729</code>处flag限制长度为0x20h，我们输入b*32</p>
 <p>0x02. 下断点 <code>b *0x400744</code>，step入<code>sub_400686</code>函数</p>
 <p>0x03. 一直n到<code>4006bf</code>位置，发现将eax和ecx做<code>xor</code>运算，ecx是我们输入的b，而eax就是我们flag的第一位。</p>
 <p>0x04. 看之前的上一条指令<code>4006bc</code>，发现eax存了一个为<code>0x400818</code>的地址。查看里面的内容。</p>
@@ -154,7 +154,7 @@
 <p>0x08. 编写c++函数实现如下：</p>
 <p>0x09. <img src="http://ww1.sinaimg.cn/large/007c8ISGly1fz4uum1lpvj30i106bglk.jpg" alt=""></p>
 <p>0x0A. <img src="http://ww1.sinaimg.cn/large/007c8ISGly1fz4utos1fbj30cc028dfm.jpg" alt=""></p>
-<h1 id="junior-math"><a href="#junior-math" class="headerlink" title="junior math"></a>junior math</h1><ul>
+<h2 id="junior-math"><a href="#junior-math" class="headerlink" title="junior math"></a>junior math</h2><ul>
 <li><strong>0x10</strong>使用IDA查看伪代码如下：<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">__int64 __<span class="function">fastcall <span class="title">main</span><span class="params">(__int64 a1, <span class="keyword">char</span> **a2, <span class="keyword">char</span> **a3)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">"Please input your flag:"</span>, a2, a3);</span><br><span class="line">  __isoc99_scanf(<span class="string">"%32s"</span>, &amp;byte_602080);</span><br><span class="line">  sub_4005D6();</span><br><span class="line">  sub_40063F();</span><br><span class="line">  sub_4006A8();</span><br><span class="line">  sub_400711();</span><br><span class="line">  sub_40077A();</span><br><span class="line">  sub_4007E3();</span><br><span class="line">  sub_40084C();</span><br><span class="line">  sub_4008B5();</span><br><span class="line">  sub_400918();</span><br><span class="line">  sub_400981();</span><br><span class="line">  sub_4009EA();</span><br><span class="line">  sub_400A53();</span><br><span class="line">  sub_400ABC();</span><br><span class="line">  sub_400B25();</span><br><span class="line">  <span class="keyword">if</span> ( dword_602064 )</span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Wrong!"</span>);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="built_in">puts</span>(<span class="string">"Right!"</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0L</span>L;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -202,7 +202,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Reverse-sign-in"><span class="toc-number">1.</span> <span class="toc-text">Reverse sign in</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#junior-math"><span class="toc-number">2.</span> <span class="toc-text">junior math</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reverse-sign-in"><span class="toc-number">1.</span> <span class="toc-text">Reverse sign in</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#junior-math"><span class="toc-number">2.</span> <span class="toc-text">junior math</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
