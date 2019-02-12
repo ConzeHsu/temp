@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="&amp;emsp;&amp;emsp;为了摆脱鼠标的依赖，提高编码效率，借助vimtutor学习了一下vim的基本操作，vimtutor的说明比较详细，在其中也提供了相应的练习和总结。 &amp;emsp;&amp;emsp;直接在shell下键入vimtutor即可。 Lesson 1 Summary h (left)、j (down)、 k (up)、l (right)：光标方向控制    vim filename：在sh">
+<meta name="keywords" content="notes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim">
+<meta property="og:url" content="http://yoursite.com/2019/02/13/vim/index.html">
+<meta property="og:site_name" content="ConzeHsu&#39;s blog">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;为了摆脱鼠标的依赖，提高编码效率，借助vimtutor学习了一下vim的基本操作，vimtutor的说明比较详细，在其中也提供了相应的练习和总结。 &amp;emsp;&amp;emsp;直接在shell下键入vimtutor即可。 Lesson 1 Summary h (left)、j (down)、 k (up)、l (right)：光标方向控制    vim filename：在sh">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-12T17:29:39.604Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="vim">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;为了摆脱鼠标的依赖，提高编码效率，借助vimtutor学习了一下vim的基本操作，vimtutor的说明比较详细，在其中也提供了相应的练习和总结。 &amp;emsp;&amp;emsp;直接在shell下键入vimtutor即可。 Lesson 1 Summary h (left)、j (down)、 k (up)、l (right)：光标方向控制    vim filename：在sh">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>vim</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/01/21/InForSec-big4-观看总结/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous</span>
+      <span id="i-next" class="info" style="display:none;">Next</span>
+      <span id="i-top" class="info" style="display:none;">Top</span>
+      <span id="i-share" class="info" style="display:none;">Share</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/13/vim/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/02/13/vim/&text=vim"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/02/13/vim/&title=vim"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-1-Summary"><span class="toc-number">1.</span> <span class="toc-text">Lesson 1 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-2-Summary"><span class="toc-number">2.</span> <span class="toc-text">Lesson 2 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-3-Summary"><span class="toc-number">3.</span> <span class="toc-text">Lesson 3 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-4-Summary"><span class="toc-number">4.</span> <span class="toc-text">Lesson 4 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-5-Summary"><span class="toc-number">5.</span> <span class="toc-text">Lesson 5 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-6-Summary"><span class="toc-number">6.</span> <span class="toc-text">Lesson 6 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-7-Summary"><span class="toc-number">7.</span> <span class="toc-text">Lesson 7 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-8-翻页"><span class="toc-number">8.</span> <span class="toc-text">Lesson 8 翻页</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        vim
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">ConzeHsu's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-02-12T17:28:09.000Z" itemprop="datePublished">2019-02-13</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/notes/">notes</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>&emsp;&emsp;为了摆脱鼠标的依赖，提高编码效率，借助<code>vimtutor</code>学习了一下vim的基本操作，<code>vimtutor</code>的说明比较详细，在其中也提供了相应的练习和总结。</p>
+<p>&emsp;&emsp;直接在shell下键入<code>vimtutor</code>即可。</p>
+<h3 id="Lesson-1-Summary"><a href="#Lesson-1-Summary" class="headerlink" title="Lesson 1 Summary"></a>Lesson 1 Summary</h3><ol>
+<li><p><code>h</code> (left)、<code>j</code> (down)、 <code>k</code> (up)、<code>l</code> (right)：光标方向控制  </p>
+</li>
+<li><p><code>vim filename</code>：在shell上用命令行vim一个文件  </p>
+</li>
+<li><p><code>:q!</code>：退出Vim，不保留任何修改</p>
+<p>   <code>:wq</code>：保留修改</p>
+</li>
+<li><p><code>x</code>：删除当前光标的字符（vim命令模式下的 Backspace）</p>
+</li>
+<li><p><code>i</code>：插入字符:</p>
+<p>  <code>a</code>：当前光标后追加字符</p>
+<p>  <code>A</code>：当前行尾追加字符</p>
+</li>
+</ol>
+<h3 id="Lesson-2-Summary"><a href="#Lesson-2-Summary" class="headerlink" title="Lesson 2 Summary"></a>Lesson 2 Summary</h3><ol>
+<li><p><code>dw</code>：删除当前光标到当前单词尾（包括空格，通常把光标放到单词首以达到删除单词的效果）</p>
+</li>
+<li><p><code>de</code>：删除当前光标到单词尾，不包括空格</p>
+</li>
+<li><p><code>d$</code>or<code>D</code>：从当前光标删除到行尾</p>
+</li>
+<li><p><code>dd</code>：删除光标所在的整行（删除多行，eg：ndd）</p>
+</li>
+<li><p><code>2w</code>：光标移动2个单词到词首（数量可变）</p>
+</li>
+<li><p><code>3e</code>：光标移动到从当前位置后第三个单词的词尾</p>
+</li>
+<li><p><code>0</code>：光标移动到行首</p>
+</li>
+<li><p>撤销前一步操作:  <code>u</code>  (lowercase u)<br> 撤销当前行的所有之前操作:  <code>U</code>  (capital U)<br> 撤销之前的撤销：<code>CTRL-R</code></p>
+</li>
+<li><p><code>operator [number] motion</code>：</p>
+<p> eg： d2w</p>
+</li>
+</ol>
+<h3 id="Lesson-3-Summary"><a href="#Lesson-3-Summary" class="headerlink" title="Lesson 3 Summary"></a>Lesson 3 Summary</h3><ol>
+<li><code>p</code>：把之前的删除的内容追加到光标后面</li>
+<li><code>r</code>：替换单个字符</li>
+<li><code>ce</code>：改变从当前光标到单词结束的字符</li>
+<li><code>c$</code>：改变从当前光标到行尾的字符</li>
+<li><code>c2</code>：删除下面两行</li>
+</ol>
+<blockquote>
+<p><code>c</code>与<code>d</code>的区别：前者执行完之后直接进入insert模式，后者还是命令模式</p>
+</blockquote>
+<h3 id="Lesson-4-Summary"><a href="#Lesson-4-Summary" class="headerlink" title="Lesson 4 Summary"></a>Lesson 4 Summary</h3><ol>
+<li><p><code>CTRL-G</code>：显示当前文件的路径，并显示当前光标在整个文件中的位置（%）</p>
+<p><code>G</code>：移动到文件最后一行</p>
+<p><code>580+G</code>：移动到文档的580行</p>
+<p><code>gg</code>：移动到文件第一行</p>
+</li>
+<li><p><code>/+key</code>：向后搜索关键词，后面加关键词，<code>n</code>相同方向下一个，<code>N</code>反向上一个</p>
+<p><code>?+key</code>：向前搜索关键词</p>
+</li>
+<li><p><code>%</code>：来匹配相对应的 <code>)，]，}</code>、</p>
+</li>
+<li><p><code>:s/old/new</code>：在一行中用new来替换old</p>
+<p><code>:s/old/new/g</code>：替换一行中所有的old，（g：global）</p>
+<p><code>:#,#s/old/new/g</code>：在#到#两行间（行号，可以事先通过CTRL-G知道行号），以new 替换所有的old</p>
+<p><code>:%s/old/new/g</code>：替换文件中的所有事件</p>
+<p><code>:%s/old/new/gc</code>：每次替换前确认</p>
+</li>
+</ol>
+<h3 id="Lesson-5-Summary"><a href="#Lesson-5-Summary" class="headerlink" title="Lesson 5 Summary"></a>Lesson 5 Summary</h3><ol>
+<li><p><code>:!</code>：执行外部命令，例如<code>:!ls</code>显示当前目录下的文件</p>
+</li>
+<li><p><code>:w filename</code>：将当前vim文件写入到filename的文件中</p>
+</li>
+<li><p><code>v motion :w filename</code>：保存选中的的行到filename的文件中</p>
+</li>
+<li><p><code>:r filename</code>：把filename文件中的内容插入到当前光标的下一行</p>
+</li>
+<li><p><code>:r !dir</code>：把当前目录的文件信息插入到当前光标的下一行</p>
+</li>
+</ol>
+<h3 id="Lesson-6-Summary"><a href="#Lesson-6-Summary" class="headerlink" title="Lesson 6 Summary"></a>Lesson 6 Summary</h3><ol>
+<li><p><code>o</code>：小写，在光标下一行插入</p>
+<p><code>O</code>：大写，在光标上一行插入</p>
+</li>
+<li><p><code>a</code>：在当前光标后插入</p>
+<p><code>A</code>：在当前行尾插入</p>
+</li>
+<li><p><code>e</code>：光标移动到当前/下一个词尾</p>
+</li>
+<li><p><code>r</code>：当前字符单个替换</p>
+<p><code>R</code>：从当前位置起覆盖替换</p>
+</li>
+</ol>
+<h3 id="Lesson-7-Summary"><a href="#Lesson-7-Summary" class="headerlink" title="Lesson 7 Summary"></a>Lesson 7 Summary</h3><ol>
+<li><code>:help</code>or<code>F1</code>or<code>Help</code>：打开一个帮助窗口</li>
+<li><code>:help cmd</code>：在cmd下打开一个帮助窗口</li>
+<li><code>CTRL-W</code>：在不同窗口间切换</li>
+<li><code>:q</code>：关闭帮助窗口</li>
+</ol>
+<h3 id="Lesson-8-翻页"><a href="#Lesson-8-翻页" class="headerlink" title="Lesson 8 翻页"></a>Lesson 8 翻页</h3><ol>
+<li><code>ctrl-f</code>or<code>ctrl-b</code>：整页下翻/上翻（forword/backward）</li>
+<li><code>ctrl-d</code>or<code>ctrl-u</code>：翻半页（down/up）</li>
+<li><code>ctrl-e</code>or<code>ctrl-y</code>：滚一行</li>
+<li><code>zz</code>：让光标所在的行居屏幕中央</li>
+<li><code>zt</code>：让光标所在的行在屏幕最上一行（t=top）</li>
+<li><code>zb</code>：让光标所在的行在屏幕最下一行（b=bottom）</li>
+</ol>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-1-Summary"><span class="toc-number">1.</span> <span class="toc-text">Lesson 1 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-2-Summary"><span class="toc-number">2.</span> <span class="toc-text">Lesson 2 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-3-Summary"><span class="toc-number">3.</span> <span class="toc-text">Lesson 3 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-4-Summary"><span class="toc-number">4.</span> <span class="toc-text">Lesson 4 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-5-Summary"><span class="toc-number">5.</span> <span class="toc-text">Lesson 5 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-6-Summary"><span class="toc-number">6.</span> <span class="toc-text">Lesson 6 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-7-Summary"><span class="toc-number">7.</span> <span class="toc-text">Lesson 7 Summary</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Lesson-8-翻页"><span class="toc-number">8.</span> <span class="toc-text">Lesson 8 翻页</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/02/13/vim/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/02/13/vim/&text=vim"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/02/13/vim/&title=vim"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> Toc</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 ConzeHsu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?72858d4dd5377337e085cc97ce6290a4";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
