@@ -6,22 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Prepare题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开col.c文件 12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;unsigned long hashcode = 0x21DD09EC;unsigned">
+    <meta name="description" content="Prepared题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开col.c文件 12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;unsigned long hashcode = 0x21DD09EC;unsigne">
 <meta name="keywords" content="pwnable.kr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Toddler&#39;s Bottle_collision">
 <meta property="og:url" content="http://yoursite.com/2019/03/09/collision/index.html">
 <meta property="og:site_name" content="ConzeHsu&#39;s blog">
-<meta property="og:description" content="Prepare题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开col.c文件 12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;unsigned long hashcode = 0x21DD09EC;unsigned">
+<meta property="og:description" content="Prepared题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开col.c文件 12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;unsigned long hashcode = 0x21DD09EC;unsigne">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wr0m31s0j30gb0araa5.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wr32fuf8j30ht04gmxa.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wro9ge1cj30if00v744.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wrgi8jnhj30hu00w744.jpg">
-<meta property="og:updated_time" content="2019-03-09T11:30:43.017Z">
+<meta property="og:updated_time" content="2019-03-18T12:17:54.616Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Toddler&#39;s Bottle_collision">
-<meta name="twitter:description" content="Prepare题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开col.c文件 12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;unsigned long hashcode = 0x21DD09EC;unsigned">
+<meta name="twitter:description" content="Prepared题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开col.c文件 12345678910111213141516171819202122232425262728293031#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;unsigned long hashcode = 0x21DD09EC;unsigne">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wr0m31s0j30gb0araa5.jpg">
     
     
@@ -99,7 +99,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -143,7 +143,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h2><p>题目如下：</p>
+    <h2 id="Prepared"><a href="#Prepared" class="headerlink" title="Prepared"></a>Prepared</h2><p>题目如下：</p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wr0m31s0j30gb0araa5.jpg" alt=""></p>
 <p>ssh连上去后，<code>ls -la</code>如下：</p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wr32fuf8j30ht04gmxa.jpg" alt=""></p>
@@ -185,7 +185,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

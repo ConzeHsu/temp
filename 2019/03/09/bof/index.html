@@ -6,20 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Prepare题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
+    <meta name="description" content="Prepared题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
 <meta name="keywords" content="pwnable.kr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Toddler&#39;s Bottle_bof">
 <meta property="og:url" content="http://yoursite.com/2019/03/09/bof/index.html">
 <meta property="og:site_name" content="ConzeHsu&#39;s blog">
-<meta property="og:description" content="Prepare题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
+<meta property="og:description" content="Prepared题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wryel290j30ga0apq33.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wuk58v5oj30ih0ew75o.jpg">
-<meta property="og:updated_time" content="2019-03-12T08:17:59.942Z">
+<meta property="og:updated_time" content="2019-03-18T12:18:14.155Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Toddler&#39;s Bottle_bof">
-<meta name="twitter:description" content="Prepare题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
+<meta name="twitter:description" content="Prepared题目如下：  下载 bof文件，并打开bof.c： 123456789101112131415161718#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;#include &amp;lt;stdlib.h&amp;gt;void func(int key)&amp;#123;	char overflowme[32];	printf(&quot;overflow me">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wryel290j30ga0apq33.jpg">
     
     
@@ -97,7 +97,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -141,7 +141,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="Prepare"><a href="#Prepare" class="headerlink" title="Prepare"></a>Prepare</h2><p>题目如下：</p>
+    <h2 id="Prepared"><a href="#Prepared" class="headerlink" title="Prepared"></a>Prepared</h2><p>题目如下：</p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g0wryel290j30ga0apq33.jpg" alt=""></p>
 <p>下载 <code>bof</code>文件，并打开<code>bof.c</code>：</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func</span><span class="params">(<span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> overflowme[<span class="number">32</span>];</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"overflow me : "</span>);</span><br><span class="line">	gets(overflowme);	<span class="comment">// smash me!</span></span><br><span class="line">	<span class="keyword">if</span>(key == <span class="number">0xcafebabe</span>)&#123;</span><br><span class="line">		system(<span class="string">"/bin/sh"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"Nah..\n"</span>);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>* argv[])</span></span>&#123;</span><br><span class="line">	func(<span class="number">0xdeadbeef</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -172,7 +172,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepare"><span class="toc-number">1.</span> <span class="toc-text">Prepare</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">
