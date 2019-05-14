@@ -6,13 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Prepared题目如下：  Analyses提示显示这是一个逆向题目，我们尝试执行一下程序，显示使用malloc函数把flag拷到了一个地方  我们看一下里面的字符串strings flag | less，搜索flag字符串竟然没有发现这一句，并且gdb flag没有发现main函数，所以怀疑是将程序加了壳，将数据压缩了。  常用的加壳软件无非是ASPack、UPX、Nspack等，搜搜里面是不">
+    <meta name="description" content="Puzzle题目如下：  Analyses提示显示这是一个逆向题目，我们尝试执行一下程序，显示使用malloc函数把flag拷到了一个地方  我们看一下里面的字符串strings flag | less，搜索flag字符串竟然没有发现这一句，并且gdb flag没有发现main函数，所以怀疑是将程序加了壳，将数据压缩了。  常用的加壳软件无非是ASPack、UPX、Nspack等，搜搜里面是不是有">
 <meta name="keywords" content="pwnable.kr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Toddler&#39;s Bottle_flag">
 <meta property="og:url" content="http://yoursite.com/2019/03/12/flag/index.html">
 <meta property="og:site_name" content="c9b1fd68fdad">
-<meta property="og:description" content="Prepared题目如下：  Analyses提示显示这是一个逆向题目，我们尝试执行一下程序，显示使用malloc函数把flag拷到了一个地方  我们看一下里面的字符串strings flag | less，搜索flag字符串竟然没有发现这一句，并且gdb flag没有发现main函数，所以怀疑是将程序加了壳，将数据压缩了。  常用的加壳软件无非是ASPack、UPX、Nspack等，搜搜里面是不">
+<meta property="og:description" content="Puzzle题目如下：  Analyses提示显示这是一个逆向题目，我们尝试执行一下程序，显示使用malloc函数把flag拷到了一个地方  我们看一下里面的字符串strings flag | less，搜索flag字符串竟然没有发现这一句，并且gdb flag没有发现main函数，所以怀疑是将程序加了壳，将数据压缩了。  常用的加壳软件无非是ASPack、UPX、Nspack等，搜搜里面是不是有">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g101sfba6xj30ga0arwek.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1021wln5rj30ht00u744.jpg">
@@ -20,10 +20,10 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g10298v7gmj30ht01imx1.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g102ctae45j30io05bmxc.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g102ga46r2j30jv0idwg4.jpg">
-<meta property="og:updated_time" content="2019-03-18T12:18:33.141Z">
+<meta property="og:updated_time" content="2019-05-06T12:38:44.792Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Toddler&#39;s Bottle_flag">
-<meta name="twitter:description" content="Prepared题目如下：  Analyses提示显示这是一个逆向题目，我们尝试执行一下程序，显示使用malloc函数把flag拷到了一个地方  我们看一下里面的字符串strings flag | less，搜索flag字符串竟然没有发现这一句，并且gdb flag没有发现main函数，所以怀疑是将程序加了壳，将数据压缩了。  常用的加壳软件无非是ASPack、UPX、Nspack等，搜搜里面是不">
+<meta name="twitter:description" content="Puzzle题目如下：  Analyses提示显示这是一个逆向题目，我们尝试执行一下程序，显示使用malloc函数把flag拷到了一个地方  我们看一下里面的字符串strings flag | less，搜索flag字符串竟然没有发现这一句，并且gdb flag没有发现main函数，所以怀疑是将程序加了壳，将数据压缩了。  常用的加壳软件无非是ASPack、UPX、Nspack等，搜搜里面是不是有">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g101sfba6xj30ga0arwek.jpg">
     
     
@@ -101,7 +101,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reverse"><span class="toc-number">3.</span> <span class="toc-text">Reverse</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Puzzle"><span class="toc-number">1.</span> <span class="toc-text">Puzzle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reverse"><span class="toc-number">3.</span> <span class="toc-text">Reverse</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -145,7 +145,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="Prepared"><a href="#Prepared" class="headerlink" title="Prepared"></a>Prepared</h2><p>题目如下：</p>
+    <h2 id="Puzzle"><a href="#Puzzle" class="headerlink" title="Puzzle"></a>Puzzle</h2><p>题目如下：</p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g101sfba6xj30ga0arwek.jpg" alt=""></p>
 <h2 id="Analyses"><a href="#Analyses" class="headerlink" title="Analyses"></a>Analyses</h2><p>提示显示这是一个逆向题目，我们尝试执行一下程序，显示使用malloc函数把flag拷到了一个地方</p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g1021wln5rj30ht00u744.jpg" alt=""></p>
@@ -186,7 +186,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reverse"><span class="toc-number">3.</span> <span class="toc-text">Reverse</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Puzzle"><span class="toc-number">1.</span> <span class="toc-text">Puzzle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reverse"><span class="toc-number">3.</span> <span class="toc-text">Reverse</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

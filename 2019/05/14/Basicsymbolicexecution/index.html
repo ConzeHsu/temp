@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="当你选择使用 angr 来分析程序的时候，你必须知道什么是符号执行，下面用例子来说明一下在 angr 中 SimulationManager 提供的 .step()的理解。 The binary and  source code for this can be found. 放一个 IDA 的 CFG 图帮助理解（入口地址可以自己查看）：  为了更好的观察中间的过程，这里我用 ipython来运行">
+<meta name="keywords" content="angr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Basicsymbolicexecution">
+<meta property="og:url" content="http://yoursite.com/2019/05/14/Basicsymbolicexecution/index.html">
+<meta property="og:site_name" content="c9b1fd68fdad">
+<meta property="og:description" content="当你选择使用 angr 来分析程序的时候，你必须知道什么是符号执行，下面用例子来说明一下在 angr 中 SimulationManager 提供的 .step()的理解。 The binary and  source code for this can be found. 放一个 IDA 的 CFG 图帮助理解（入口地址可以自己查看）：  为了更好的观察中间的过程，这里我用 ipython来运行">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbckt7csj30d80g6mxy.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbi1jai4j30ie018jr8.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbidxikhj30if03ct8q.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wc01kv22j30ie02kt8m.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbwyi5maj30id01p0sj.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wc8maj2cj30if0bbabb.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wcc761scj30ie038wel.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wfp99pecj30ie015glf.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wfw0tqabj30ig045glt.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wg5mvwmrj30if069t9c.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wgg7oi1sj30ie02fglm.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wgyfweidj30ie02cglk.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wgzzzr1aj30ie0183yb.jpg">
+<meta property="og:updated_time" content="2019-05-14T12:19:32.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Basicsymbolicexecution">
+<meta name="twitter:description" content="当你选择使用 angr 来分析程序的时候，你必须知道什么是符号执行，下面用例子来说明一下在 angr 中 SimulationManager 提供的 .step()的理解。 The binary and  source code for this can be found. 放一个 IDA 的 CFG 图帮助理解（入口地址可以自己查看）：  为了更好的观察中间的过程，这里我用 ipython来运行">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbckt7csj30d80g6mxy.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Basicsymbolicexecution</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" href="/2019/05/06/leg/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous</span>
+      <span id="i-next" class="info" style="display:none;">Next</span>
+      <span id="i-top" class="info" style="display:none;">Top</span>
+      <span id="i-share" class="info" style="display:none;">Share</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/14/Basicsymbolicexecution/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/14/Basicsymbolicexecution/&text=Basicsymbolicexecution"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/14/Basicsymbolicexecution/&title=Basicsymbolicexecution"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Basicsymbolicexecution
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c9b1fd68fdad</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-14T12:16:18.000Z" itemprop="datePublished">2019-05-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/angr/">angr</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>当你选择使用 angr 来分析程序的时候，你必须知道什么是符号执行，下面用例子来说明一下在 angr 中 SimulationManager 提供的 <code>.step()</code>的理解。</p>
+<p>The <a href="/download/step0.bin">binary</a> and  <a href="/download/step0.c">source code</a> for this can be found.</p>
+<p>放一个 IDA 的 CFG 图帮助理解（入口地址可以自己查看）：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbckt7csj30d80g6mxy.jpg" alt=""></p>
+<p>为了更好的观察中间的过程，这里我用 <code>ipython</code>来运行程序。</p>
+<p>首先，使用 angr 创建一个工程，参数为二进制文件的绝对路径，也可以将脚本放在和文件同目录下：</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbi1jai4j30ie018jr8.jpg" alt=""></p>
+<p>把每个基本块的入口地址定义一下，便于之后对符号执行的理解和程序的比较。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbidxikhj30if03ct8q.jpg" alt=""></p>
+<p>随后我们获取入口的状态 state ，并使用 SimulationManager 获得该状态的模拟器sm用来操 state。默认状态是放到 <code>active</code>列表中的（active 是 stashes 的一种，官方解释见下），代表一个活跃的状态，我们可以看到该状态的地址就是 <code>main</code>函数的入口地址，所以现在只有<code>1 active</code>；判断是否相等可以用 assert 语句来代替，此方法多用在调试过程中。无反馈结果即表示条件成立，无异常。</p>
+<blockquote>
+<p>Simulation managers let you wrangle multiple states in a slick way. States are organized into “stashes”, which you can step forward, filter, merge, and move around as you wish. This allows you to, for example, step two different stashes of states at different rates, then merge them together. The default stash for most operations is the <code>active</code> stash, which is where your states get put when you initialize a new simulation manager.</p>
+</blockquote>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wc01kv22j30ie02kt8m.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wbwyi5maj30id01p0sj.jpg" alt=""></p>
+<p>随后我们程序使用<code>.step()</code>向下执行到下一个基本块，我们可以把 <code>.step</code>理解为 <code>gdb</code> 中的 <code>next</code>指令，只不过 next 指令是下一条指令，而 <code>.step()</code>表示下一个基本块地址，可以直观化的理解为 IDA 中控制流图的下一个框框（这样理解并不准确，我们知道IDA中的每个框框中例如puts这种库函数地址是需要动态绑定的，所以严格意义上说.step(）表示下一次跳转的位置)。所以程序继续执行，由于路径分叉会得到 <code>2 个 active</code>。我们可以将这2个 active 的地址打印出来，来和我们预先在IDA中观察到的分叉地址作比较，很明显是相同的。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wc8maj2cj30if0bbabb.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wcc761scj30ie038wel.jpg" alt=""></p>
+<p>随后我们再<code>.step()</code>执行下面的基本块，如下，生成<code>3个 active</code>，我们猜测这三个地址分别是<code>endpoint</code>、<code>second_branch_left</code>、<code>second_branch_right</code>，即有一个直接到达了程序结尾，另一个分支会遇到条件分支，分为两个。assert一下相应的地址验证结果正确。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wfp99pecj30ie015glf.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wfw0tqabj30ig045glt.jpg" alt=""></p>
+<p>到目前为止，我们已经有个三个states，其中一个到达了endpoint，就成为了 unconstrained 的状态</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wg5mvwmrj30if069t9c.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wgg7oi1sj30ie02fglm.jpg" alt=""></p>
+<p>如果我们抛开这一步步，直接从头调用explore()函数，该函数的作用效果是step()所有的state，直到没有一个是active的state。会发现所有的 stash 会在最后 merge 成 1个 deadended的stash。</p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wgyfweidj30ie02cglk.jpg" alt=""></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2wgzzzr1aj30ie0183yb.jpg" alt=""></p>
+<p>Reference：<a href="https://github.com/angr/angr-doc/blob/master/docs/courses/step0-basic_symbol_execution.md" target="_blank" rel="noopener">angr-doc</a></p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/14/Basicsymbolicexecution/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/14/Basicsymbolicexecution/&text=Basicsymbolicexecution"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/14/Basicsymbolicexecution/&title=Basicsymbolicexecution"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> Toc</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 ConzeHsu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?72858d4dd5377337e085cc97ce6290a4";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+

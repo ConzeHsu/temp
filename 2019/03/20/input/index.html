@@ -6,20 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Prepared题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开input.c文件： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#include &amp;lt;stdi">
+    <meta name="description" content="Puzzle题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开input.c文件： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#include &amp;lt;stdio.">
 <meta name="keywords" content="pwnable.kr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Toddler&#39;s Bottle_input">
 <meta property="og:url" content="http://yoursite.com/2019/03/20/input/index.html">
 <meta property="og:site_name" content="c9b1fd68fdad">
-<meta property="og:description" content="Prepared题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开input.c文件： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#include &amp;lt;stdi">
+<meta property="og:description" content="Puzzle题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开input.c文件： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#include &amp;lt;stdio.">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g192g48fdcj30g90apgln.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g192icdc3sj30hs04gaa7.jpg">
-<meta property="og:updated_time" content="2019-03-20T10:42:54.475Z">
+<meta property="og:updated_time" content="2019-05-06T12:38:46.823Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Toddler&#39;s Bottle_input">
-<meta name="twitter:description" content="Prepared题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开input.c文件： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#include &amp;lt;stdi">
+<meta name="twitter:description" content="Puzzle题目如下：  ssh连上去后，ls -la如下：  分析各个文件的权限后，打开input.c文件： 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667#include &amp;lt;stdio.">
 <meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g192g48fdcj30g90apgln.jpg">
     
     
@@ -97,7 +97,7 @@
 
     </div>
     <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Puzzle"><span class="toc-number">1.</span> <span class="toc-text">Puzzle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
     </div>
   </span>
 </div>
@@ -141,7 +141,7 @@
   
 
   <div class="content" itemprop="articleBody">
-    <h2 id="Prepared"><a href="#Prepared" class="headerlink" title="Prepared"></a>Prepared</h2><p>题目如下：</p>
+    <h2 id="Puzzle"><a href="#Puzzle" class="headerlink" title="Puzzle"></a>Puzzle</h2><p>题目如下：</p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g192g48fdcj30g90apgln.jpg" alt=""></p>
 <p>ssh连上去后，<code>ls -la</code>如下：</p>
 <p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g192icdc3sj30hs04gaa7.jpg" alt=""></p>
@@ -173,7 +173,7 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Prepared"><span class="toc-number">1.</span> <span class="toc-text">Prepared</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Puzzle"><span class="toc-number">1.</span> <span class="toc-text">Puzzle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
     </div>
 
     <div id="share-footer" style="display: none">

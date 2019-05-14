@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="Puzzle题目如下：给出 leg.c 和 leg.asm  Analyses从 .c 文中可以看出，程序编写采用了内联汇编的形式，即直接将汇编代码嵌入到 c 代码中，我们所需要判断的是(key1()+key2()+key3()) == key，我们知道在调用函数时，返回值通常使用寄存器来传递，所以我们的思路是找出这三个函数的返回值，做和即可。  disass key1 如下：函数的返回值放到了r">
+<meta name="keywords" content="pwnable.kr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Toddler&#39;s Bottle_leg">
+<meta property="og:url" content="http://yoursite.com/2019/05/06/leg/index.html">
+<meta property="og:site_name" content="c9b1fd68fdad">
+<meta property="og:description" content="Puzzle题目如下：给出 leg.c 和 leg.asm  Analyses从 .c 文中可以看出，程序编写采用了内联汇编的形式，即直接将汇编代码嵌入到 c 代码中，我们所需要判断的是(key1()+key2()+key3()) == key，我们知道在调用函数时，返回值通常使用寄存器来传递，所以我们的思路是找出这三个函数的返回值，做和即可。  disass key1 如下：函数的返回值放到了r">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2rwhqkqtqj30ga0apt8v.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2rwurizjzj30fu07k74u.jpg">
+<meta property="og:updated_time" content="2019-05-06T13:27:10.922Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Toddler&#39;s Bottle_leg">
+<meta name="twitter:description" content="Puzzle题目如下：给出 leg.c 和 leg.asm  Analyses从 .c 文中可以看出，程序编写采用了内联汇编的形式，即直接将汇编代码嵌入到 c 代码中，我们所需要判断的是(key1()+key2()+key3()) == key，我们知道在调用函数时，返回值通常使用寄存器来传递，所以我们的思路是找出这三个函数的返回值，做和即可。  disass key1 如下：函数的返回值放到了r">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2rwhqkqtqj30ga0apt8v.jpg">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Toddler&#39;s Bottle_leg</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+    
+      <link rel="stylesheet" href="/css/rtl.css">
+    
+    <!-- rss -->
+    
+    
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/05/14/Basicsymbolicexecution/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/03/26/ret2shellcode/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous</span>
+      <span id="i-next" class="info" style="display:none;">Next</span>
+      <span id="i-top" class="info" style="display:none;">Top</span>
+      <span id="i-share" class="info" style="display:none;">Share</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/06/leg/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/06/leg/&text=Toddler&#39;s Bottle_leg"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/06/leg/&title=Toddler&#39;s Bottle_leg"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Puzzle"><span class="toc-number">1.</span> <span class="toc-text">Puzzle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Toddler&#39;s Bottle_leg
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+        <span itemprop="name">c9b1fd68fdad</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-05-06T13:04:39.000Z" itemprop="datePublished">2019-05-06</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/pwnable-kr/">pwnable.kr</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h2 id="Puzzle"><a href="#Puzzle" class="headerlink" title="Puzzle"></a>Puzzle</h2><p>题目如下：给出 <a href="https://pwnable.kr/bin/leg.c" target="_blank" rel="noopener">leg.c</a> 和 <a href="https://pwnable.kr/bin/leg.asm" target="_blank" rel="noopener">leg.asm</a></p>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2rwhqkqtqj30ga0apt8v.jpg" alt=""></p>
+<h2 id="Analyses"><a href="#Analyses" class="headerlink" title="Analyses"></a>Analyses</h2><p>从 .c 文中可以看出，程序编写采用了内联汇编的形式，即直接将汇编代码嵌入到 c 代码中，我们所需要判断的是<code>(key1()+key2()+key3()) == key</code>，我们知道在调用函数时，返回值通常使用寄存器来传递，所以我们的思路是找出这三个函数的返回值，做和即可。</p>
+<ul>
+<li>disass key1 如下：函数的返回值放到了r0中，而r0最后一次赋值为pc的值，在arm中，pc指向下两条指令的地址，即<code>0x00008ce4</code>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(gdb) disass key1</span><br><span class="line">Dump of assembler code <span class="keyword">for</span> <span class="keyword">function</span> key1:</span><br><span class="line">   0x00008cd4 &lt;+0&gt;: push    &#123;r11&#125;       ; (str r11, [sp, <span class="comment">#-4]!)</span></span><br><span class="line">   0x00008cd8 &lt;+4&gt;: add r11, sp, <span class="comment">#0</span></span><br><span class="line">   0x00008cdc &lt;+8&gt;: mov r3, pc</span><br><span class="line">   0x00008ce0 &lt;+12&gt;:    mov r0, r3</span><br><span class="line">   0x00008ce4 &lt;+16&gt;:    sub sp, r11, <span class="comment">#0</span></span><br><span class="line">   0x00008ce8 &lt;+20&gt;:    pop &#123;r11&#125;       ; (ldr r11, [sp], <span class="comment">#4)</span></span><br><span class="line">   0x00008cec &lt;+24&gt;:    bx  lr</span><br></pre></td></tr></table></figure>
+<ul>
+<li>disass key2 如下：函数的返回值放到了 r0 中，而r0的赋值如图所示，为pc+4，即<code>0x00008d08+4</code></li>
+</ul>
+<p><img src="http://ww1.sinaimg.cn/mw690/007c8ISGly1g2rwurizjzj30fu07k74u.jpg" alt=""></p>
+<ul>
+<li>disass key3 如下：函数返回值 r0 为 lr寄存器的值，而 lr 寄存器（Link Register）存储的是程序的返回地址，即main函数调用完key3的地址的下一条地址<code>0x00008d80</code></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(gdb) disass key3</span><br><span class="line">Dump of assembler code <span class="keyword">for</span> <span class="keyword">function</span> key3:</span><br><span class="line">   0x00008d20 &lt;+0&gt;: push    &#123;r11&#125;       ; (str r11, [sp, <span class="comment">#-4]!)</span></span><br><span class="line">   0x00008d24 &lt;+4&gt;: add r11, sp, <span class="comment">#0</span></span><br><span class="line">   0x00008d28 &lt;+8&gt;: mov r3, lr</span><br><span class="line">   0x00008d2c &lt;+12&gt;:    mov r0, r3</span><br><span class="line">   0x00008d30 &lt;+16&gt;:    sub sp, r11, <span class="comment">#0</span></span><br><span class="line">   0x00008d34 &lt;+20&gt;:    pop &#123;r11&#125;       ; (ldr r11, [sp], <span class="comment">#4)</span></span><br><span class="line">   0x00008d38 &lt;+24&gt;:    bx  lr</span><br><span class="line">End of assembler dump.</span><br></pre></td></tr></table></figure>
+<p>因此<code>key = key1()+key2()+key3()=0x00008ce4+0x00008d08+4+0x00008d80=108400</code></p>
+<h2 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h2>
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Puzzle"><span class="toc-number">1.</span> <span class="toc-text">Puzzle</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Analyses"><span class="toc-number">2.</span> <span class="toc-text">Analyses</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Pwn"><span class="toc-number">3.</span> <span class="toc-text">Pwn</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=http://yoursite.com/2019/05/06/leg/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=http://yoursite.com/2019/05/06/leg/&text=Toddler&#39;s Bottle_leg"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=http://yoursite.com/2019/05/06/leg/&title=Toddler&#39;s Bottle_leg"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> Toc</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2019 ConzeHsu
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Articles</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+</body>
+</html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+    <script type="text/javascript">
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?72858d4dd5377337e085cc97ce6290a4";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+<!-- Disqus Comments -->
+
+
